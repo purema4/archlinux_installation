@@ -90,9 +90,8 @@ cryptsetup -v luksFormat /dev/sda2
 cryptsetup luksOpen /dev/sda2 lvm
 ```
 ceci ouvre la partition encrypté sous /dev/mapper/lvm
-_le dernier argument, ***notez*** le pour plus tard_
 
-Création du volume physique et du group. Nous allons l'appeler **arch**
+Création du volume physique et du group. Nous allons l'appeler **arch** //c'est le nom du group de volumes
 ```bash
 pvcreate /dev/mapper/lvm
 vgcreate arch /dev/mapper/lvm
@@ -188,13 +187,13 @@ locale-gen
 
 ### mkinitcpio
 Il faut aller modifier les étapes d'amorcages du kernel.
-Modifier /etc/mkinitcpio.conf
+Modifier /etc/mkinitcpio.conf pour que cette ligne ressemble à ça:
 ```
 HOOKS="base udev autodetect modconf block keyboard encrypt lvm2 resume filesystems fsck"
 ```
 
 Si vous utiliser btrfs, veuillez installer `btrfs-progs`
-Executer:
+Ensuite, executez:
 
 ```bash
 mkinitcpio -p linux
@@ -229,9 +228,11 @@ title Arch Linux
 linux /vmlinuz-linux
 initrd intel-ucode.img OU initrd amd-ucode.img
 initrd /initramfs-linux.img
-/options cryptdevice=UUID=<Le UUID de la Partition /dev/sda2>:<nom du luks noté plus haut> resume=/dev/mapper/arch-swap root=/dev/mapper/arch-root rw quiet iommu_<cpu>=on iommu=pt
+/options cryptdevice=UUID=<Le UUID de la Partition /dev/sda2>:<nom du group de volumes> resume=/dev/mapper/arch-swap root=/dev/mapper/arch-root rw quiet iommu_<cpu>=on iommu=pt
 ```
-Si vous êtes dans vim. faites `:read !blkid /dev/sda2`, le UUID va s'ajouter dans le tampon de modification.
+Si vous êtes dans vim. faites `:read !blkid -s UUID -o value /dev/sda2`, le UUID va s'ajouter dans le tampon de modification.
+
+sinon vous pouvez prendre le UUID avec blkid -s UUID -o value /dev/sda2.
 
 Ouf...
 
