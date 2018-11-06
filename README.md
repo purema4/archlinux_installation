@@ -165,6 +165,8 @@ echo <hostname> > /etc/hostname
 passwd
 useradd -m -G wheel -s /bin/bash <nom d'utilisateur>
 password <nom d'utilisateur>
+
+systemctl enable NetworkManager
 ```
 
 ### Locale-gen
@@ -226,7 +228,8 @@ Créer et Modifier le fichier /boot/loader/entries/arch.conf
 title Arch Linux
 linux /vmlinuz-linux
 initrd intel-ucode.img OU initrd amd-ucode.img
-initrd options cryptdevice=UUID=<Le UUID de la Partition /dev/sda2>:<nom du luks noté plus haut> resume=/dev/mapper/arch-swap root=/dev/mapper/arch-root rw quiet iommu_<cpu>=on iommu=pt
+initrd /initramfs-linux.img
+/options cryptdevice=UUID=<Le UUID de la Partition /dev/sda2>:<nom du luks noté plus haut> resume=/dev/mapper/arch-swap root=/dev/mapper/arch-root rw quiet iommu_<cpu>=on iommu=pt
 ```
 Si vous êtes dans vim. faites `:read !blkid /dev/sda2`, le UUID va s'ajouter dans le tampon de modification.
 
@@ -241,4 +244,4 @@ reboot
 ```
 Si tout ce passe bien, l'ordinateur va redémarrer et voud demander pour le mot de passe d'encryption.
 
-Pour installer un environnement graphique, un prochain  tutoriel s'en vient.
+Pour installer un environnement graphique, un prochain tutoriel s'en vient.
