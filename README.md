@@ -146,7 +146,7 @@ pacstrap /mnt base base-devel vim networkmanager dialog
 ```
 ### Création de FSTAB
 ```bash
-genfstab -pU /mnt >> /mnt/etc/fstab
+genfstab -p /mnt >> /mnt/etc/fstab
 ```
 
 ### Chroot
@@ -189,7 +189,7 @@ locale-gen
 Il faut aller modifier les étapes d'amorcages du kernel.
 Modifier /etc/mkinitcpio.conf pour que cette ligne ressemble à ça:
 ```
-HOOKS="base udev autodetect modconf block keyboard encrypt lvm2 resume filesystems fsck"
+HOOKS=(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt sd-lvm2 filesystems fsck)
 ```
 
 Si vous utiliser btrfs, veuillez installer `btrfs-progs`
@@ -226,9 +226,9 @@ Créer et Modifier le fichier /boot/loader/entries/arch.conf
 ```
 title Arch Linux
 linux /vmlinuz-linux
-initrd intel-ucode.img OU initrd amd-ucode.img
+initrd /intel-ucode.img OU initrd /amd-ucode.img
 initrd /initramfs-linux.img
-options cryptdevice=UUID=<Le UUID de la Partition /dev/sda2>:<nom du group de volumes> resume=/dev/mapper/arch-swap root=/dev/mapper/arch-root rw quiet iommu_<cpu>=on iommu=pt
+options rd.luks.name=<Le UUID de la Partition /dev/sda2>=arch resume=/dev/mapper/arch-swap root=/dev/mapper/arch-root rw quiet iommu_<cpu>=on iommu=pt
 ```
 Si vous êtes dans vim. faites `:read !blkid -s UUID -o value /dev/sda2`, le UUID va s'ajouter dans le tampon de modification.
 
