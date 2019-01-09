@@ -228,7 +228,7 @@ title Arch Linux
 linux /vmlinuz-linux
 initrd intel-ucode.img OU initrd amd-ucode.img
 initrd /initramfs-linux.img
-/options cryptdevice=UUID=<Le UUID de la Partition /dev/sda2>:<nom du group de volumes> resume=/dev/mapper/arch-swap root=/dev/mapper/arch-root rw quiet iommu_<cpu>=on iommu=pt
+options cryptdevice=UUID=<Le UUID de la Partition /dev/sda2>:<nom du group de volumes> resume=/dev/mapper/arch-swap root=/dev/mapper/arch-root rw quiet iommu_<cpu>=on iommu=pt
 ```
 Si vous êtes dans vim. faites `:read !blkid -s UUID -o value /dev/sda2`, le UUID va s'ajouter dans le tampon de modification.
 
