@@ -192,6 +192,7 @@ Modifier /etc/mkinitcpio.conf pour que cette ligne ressemble à ça:
 HOOKS=(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt sd-lvm2 filesystems fsck)
 ```
 
+Si ce n'est pas déjà installé avec pacstrap, veuillez isntaller lvm2 aussi.
 Si vous utiliser btrfs, veuillez installer `btrfs-progs`
 Ensuite, executez:
 
